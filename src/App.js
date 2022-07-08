@@ -1,25 +1,45 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react';
+import Display from './components/Display';
+import Button from './components/Button';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const MAX_CHARACTER = 10;
+
+const App = () => {
+	const [formulaDisplay, setFormulaDisplay] = useState([]);
+	const [computationDisplay, setComputationDisplay] = useState([]);
+
+	useEffect(() => {
+		start();
+		// eslint-disable-next-lin
+	}, []);
+
+	useEffect(() => {
+		setComputationDisplay(formulaDisplay.join(''));
+		// eslint-disable-next-lin
+	}, [formulaDisplay]);
+
+	const start = () => {
+		setFormulaDisplay([0]);
+	};
+
+	const handleNumber = (e) => {
+		if (formulaDisplay.length !== MAX_CHARACTER) {
+			setFormulaDisplay((prev) => [...prev, e.target.value]);
+		}
+	};
+
+	console.log(formulaDisplay);
+
+	return (
+		<div className='App'>
+			<Display
+				formulaDisplay={formulaDisplay}
+				computationDisplay={computationDisplay}
+			/>
+			<Button handleNumber={handleNumber} start={start} />
+		</div>
+	);
+};
 
 export default App;

@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+.button-container {
+	margin-top: 2rem;
+	display: grid;
+	gap: 0.3rem;
+	grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-span-2 {
+	grid-column: span 2;
+}
+
+.btn {
+	font-family: 'Share Tech Mono', monospace;
+	font-size: 2rem;
+	padding: 1.5rem 0;
+}
