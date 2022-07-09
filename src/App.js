@@ -6,40 +6,63 @@ import Button from './components/Button';
 const MAX_CHARACTER = 10;
 
 const App = () => {
-	const [display, setDisplay] = useState('0');
+	const [display, setDisplay] = useState([]);
+	const [formula, setFormula] = useState('');
 	const [currentVal, setCurrentVal] = useState('0');
-	const [lastClicked, setLastClicked] = useState('');
+	const [prevVal, setPrevVal] = useState('');
 
 	useEffect(() => {
 		start();
 	}, []);
 
 	useEffect(() => {
-		setDisplay(currentVal);
-		console.log(lastClicked);
-		console.log(currentVal);
+		const expression = /^-?\d+\.?\d*$/;
+		setDisplay((prev) => {
+			if (expression.test(currentVal)) {
+				return currentVal;
+			} else {
+				return prev;
+			}
+		});
+		console.log(expression.test(currentVal));
 		// eslint-disable-next-line
 	}, [currentVal]);
 
 	const start = () => {
 		setDisplay('0');
+		setFormula('');
 		setCurrentVal('0');
-		setLastClicked('');
+		setPrevVal('');
 	};
 
 	const handleNumber = (e) => {
-		if (currentVal.length !== MAX_CHARACTER && currentVal !== '0') {
+		if (currentVal.length !== MAX_CHARACTER && e.target.value === '.') {
+			setCurrentVal((prev) => prev + e.target.value);
+		} else if (currentVal.length !== MAX_CHARACTER && currentVal !== '0') {
 			setCurrentVal((prev) => prev + e.target.value);
 		} else if (currentVal.length !== MAX_CHARACTER) {
 			setCurrentVal(e.target.value);
 		}
-		setLastClicked('num');
+	};
+
+	const handleOperator = (e) => {
+		setFormula(display + e.target.value);
+		setCurrentVal('');
+	};
+
+	const handleEqual = (e) => {
+		setFormula(display + e.target.value);
 	};
 
 	return (
 		<div className='App'>
-			<Display display={display} />
-			<Button start={start} handleNumber={handleNumber} />
+			<Display display={display} formula={formula} />
+			<Button
+				start={start}
+				handleNumber={handleNumber}
+				handleOperator={handleOperator}
+				handleEqual={handleEqual}
+			/>
 		</div>
 	);
 };

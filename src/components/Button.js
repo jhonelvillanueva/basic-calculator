@@ -1,7 +1,7 @@
 import './Button.css';
 import React from 'react';
 
-const Button = ({ start, handleNumber }) => {
+const Button = ({ start, handleNumber, handleOperator, handleEqual }) => {
 	return (
 		<>
 			<div className='button-container'>
@@ -9,7 +9,7 @@ const Button = ({ start, handleNumber }) => {
 					AC
 				</button>
 				<button className='btn'>±</button>
-				<button className='btn' value='/'>
+				<button className='btn' onClick={handleOperator} value='/'>
 					/
 				</button>
 				<button className='btn' onClick={handleNumber} value='7'>
@@ -21,7 +21,7 @@ const Button = ({ start, handleNumber }) => {
 				<button className='btn' onClick={handleNumber} value='9'>
 					9
 				</button>
-				<button className='btn' value='x'>
+				<button className='btn' onClick={handleOperator} value='x'>
 					X
 				</button>
 				<button className='btn' onClick={handleNumber} value='4'>
@@ -33,7 +33,7 @@ const Button = ({ start, handleNumber }) => {
 				<button className='btn' onClick={handleNumber} value='6'>
 					6
 				</button>
-				<button className='btn' value='-'>
+				<button className='btn' onClick={handleOperator} value='-'>
 					-
 				</button>
 				<button className='btn' onClick={handleNumber} value='1'>
@@ -45,7 +45,7 @@ const Button = ({ start, handleNumber }) => {
 				<button className='btn' onClick={handleNumber} value='3'>
 					3
 				</button>
-				<button className='btn' value='+'>
+				<button className='btn' onClick={handleOperator} value='+'>
 					+
 				</button>
 				<button className='btn grid-span-2' onClick={handleNumber} value='0'>
@@ -54,7 +54,7 @@ const Button = ({ start, handleNumber }) => {
 				<button className='btn' onClick={handleNumber} value='.'>
 					.
 				</button>
-				<button className='btn' value='='>
+				<button className='btn' onClick={handleEqual} value='='>
 					=
 				</button>
 			</div>
