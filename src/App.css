@@ -17,6 +17,7 @@ html {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background-color: rgb(167, 167, 167);
 }
 
 .App {
@@ -24,4 +25,5 @@ html {
 	border: 1px solid black;
 	border-radius: 10px;
 	padding: 2.5rem 1rem;
+	background-color: rgb(7, 25, 55);
 }

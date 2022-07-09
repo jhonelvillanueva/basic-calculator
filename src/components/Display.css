@@ -22,6 +22,9 @@
 	font-family: 'Digital', monospace;
 	text-align: right;
 	padding: 0.5rem 1rem;
+	background-color: rgb(73, 233, 73);
+	box-shadow: 0 0 5px 5px rgba(73, 233, 73, 0.241);
+	color: rgb(32, 32, 32);
 }
 
 .display-big {

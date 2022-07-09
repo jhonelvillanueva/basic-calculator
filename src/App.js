@@ -7,26 +7,23 @@ const MAX_CHARACTER = 13;
 
 const App = () => {
 	const [current, setCurrent] = useState('');
+	const [prevVal, setPrevVal] = useState('');
 	const [formula, setFormula] = useState('');
 	const [display, setDisplay] = useState('');
 	const [result, setResult] = useState('');
-
-	// const operators = ['+', '-', '*', '/', '.'];
 
 	useEffect(() => {
 		start();
 	}, []);
 
 	useEffect(() => {
-		if (!result) {
-			return;
-		}
+		if (!result) return;
 
-		const firstDigit = result.slice(0, result.indexOf(/\^d/) - 1);
-		const secondDigit = result.slice(result.indexOf(/\^d/));
+		const firstDigit = result.slice(0, result.indexOf('/[D^.]/') - 1);
+		const secondDigit = result.slice(result.indexOf(/[\D^.]/));
 		const operator = result.slice(
-			result.indexOf(/\^d/) - 1,
-			result.indexOf(/\^d/)
+			result.indexOf(/[\D^.]/) - 1,
+			result.indexOf(/[\D^.]/)
 		);
 
 		const computed = (a, b, op) => {
@@ -65,12 +62,15 @@ const App = () => {
 
 	const start = () => {
 		setCurrent('');
+		setPrevVal('');
 		setFormula('');
 		setDisplay('');
 		setResult('');
 	};
 
 	const handleNumber = (e) => {
+		if (formula.slice(-1) === '.') return;
+
 		updateDisplay((prev) => prev + e.target.value);
 		setCurrent((prev) => prev + e.target.value);
 
@@ -80,7 +80,7 @@ const App = () => {
 	};
 
 	const handleOperator = (e) => {
-		if (!formula && !current) {
+		if ((!formula && !current) || (formula && formula.slice(-1) === '=')) {
 			return;
 		}
 
@@ -89,13 +89,13 @@ const App = () => {
 	};
 
 	const handleEqual = (e) => {
+		if ((!formula && !current) || (formula && formula.slice(-1) === '=')) {
+			return;
+		}
+
 		setFormula(formula + current + e.target.value);
 		setResult(formula + current);
 		setCurrent('');
-
-		if (formula.slice(-1) !== /\d/) {
-			setResult(formula + current);
-		}
 	};
 
 	return (
