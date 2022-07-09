@@ -1,57 +1,101 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import Display from './components/Display';
 import Button from './components/Button';
 
-const MAX_CHARACTER = 10;
+const MAX_CHARACTER = 13;
 
 const App = () => {
-	const [display, setDisplay] = useState([]);
+	const [current, setCurrent] = useState('');
 	const [formula, setFormula] = useState('');
-	const [currentVal, setCurrentVal] = useState('0');
-	const [prevVal, setPrevVal] = useState('');
+	const [display, setDisplay] = useState('');
+	const [result, setResult] = useState('');
+
+	// const operators = ['+', '-', '*', '/', '.'];
 
 	useEffect(() => {
 		start();
 	}, []);
 
 	useEffect(() => {
-		const expression = /^-?\d+\.?\d*$/;
-		setDisplay((prev) => {
-			if (expression.test(currentVal)) {
-				return currentVal;
-			} else {
-				return prev;
+		if (!result) {
+			return;
+		}
+
+		const firstDigit = result.slice(0, result.indexOf(/\^d/) - 1);
+		const secondDigit = result.slice(result.indexOf(/\^d/));
+		const operator = result.slice(
+			result.indexOf(/\^d/) - 1,
+			result.indexOf(/\^d/)
+		);
+
+		const computed = (a, b, op) => {
+			if (op === '+') {
+				return a + b;
+			} else if (op === '-') {
+				return a - b;
+			} else if (op === 'x') {
+				return a * b;
+			} else if (op === '/') {
+				return a / b;
 			}
-		});
-		console.log(expression.test(currentVal));
+		};
+
+		updateDisplay(
+			`${computed(Number(firstDigit), Number(secondDigit), operator)}`
+		);
 		// eslint-disable-next-line
-	}, [currentVal]);
+	}, [result]);
+
+	useLayoutEffect(() => {
+		if (!current) {
+			updateDisplay(display);
+		} else {
+			updateDisplay(current);
+		}
+
+		// eslint-disable-next-line
+	}, [current]);
+
+	const updateDisplay = (value) => {
+		if (display.length !== MAX_CHARACTER) {
+			setDisplay(value);
+		}
+	};
 
 	const start = () => {
-		setDisplay('0');
+		setCurrent('');
 		setFormula('');
-		setCurrentVal('0');
-		setPrevVal('');
+		setDisplay('');
+		setResult('');
 	};
 
 	const handleNumber = (e) => {
-		if (currentVal.length !== MAX_CHARACTER && e.target.value === '.') {
-			setCurrentVal((prev) => prev + e.target.value);
-		} else if (currentVal.length !== MAX_CHARACTER && currentVal !== '0') {
-			setCurrentVal((prev) => prev + e.target.value);
-		} else if (currentVal.length !== MAX_CHARACTER) {
-			setCurrentVal(e.target.value);
+		updateDisplay((prev) => prev + e.target.value);
+		setCurrent((prev) => prev + e.target.value);
+
+		if (formula.slice(-1) === '=') {
+			setFormula('');
 		}
 	};
 
 	const handleOperator = (e) => {
-		setFormula(display + e.target.value);
-		setCurrentVal('');
+		if (!formula && !current) {
+			return;
+		}
+
+		setFormula(current + e.target.value);
+		setCurrent('');
 	};
 
 	const handleEqual = (e) => {
-		setFormula(display + e.target.value);
+		setFormula(formula + current + e.target.value);
+		setResult(formula + current);
+		setCurrent('');
+
+		if (formula.slice(-1) !== /\d/) {
+			setResult(formula + current);
+		}
 	};
 
 	return (
