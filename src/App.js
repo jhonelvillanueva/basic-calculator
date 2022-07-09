@@ -6,38 +6,40 @@ import Button from './components/Button';
 const MAX_CHARACTER = 10;
 
 const App = () => {
-	const [formulaDisplay, setFormulaDisplay] = useState([]);
-	const [computationDisplay, setComputationDisplay] = useState([]);
+	const [display, setDisplay] = useState('0');
+	const [currentVal, setCurrentVal] = useState('0');
+	const [lastClicked, setLastClicked] = useState('');
 
 	useEffect(() => {
 		start();
-		// eslint-disable-next-lin
 	}, []);
 
 	useEffect(() => {
-		setComputationDisplay(formulaDisplay.join(''));
-		// eslint-disable-next-lin
-	}, [formulaDisplay]);
+		setDisplay(currentVal);
+		console.log(lastClicked);
+		console.log(currentVal);
+		// eslint-disable-next-line
+	}, [currentVal]);
 
 	const start = () => {
-		setFormulaDisplay([0]);
+		setDisplay('0');
+		setCurrentVal('0');
+		setLastClicked('');
 	};
 
 	const handleNumber = (e) => {
-		if (formulaDisplay.length !== MAX_CHARACTER) {
-			setFormulaDisplay((prev) => [...prev, e.target.value]);
+		if (currentVal.length !== MAX_CHARACTER && currentVal !== '0') {
+			setCurrentVal((prev) => prev + e.target.value);
+		} else if (currentVal.length !== MAX_CHARACTER) {
+			setCurrentVal(e.target.value);
 		}
+		setLastClicked('num');
 	};
-
-	console.log(formulaDisplay);
 
 	return (
 		<div className='App'>
-			<Display
-				formulaDisplay={formulaDisplay}
-				computationDisplay={computationDisplay}
-			/>
-			<Button handleNumber={handleNumber} start={start} />
+			<Display display={display} />
+			<Button start={start} handleNumber={handleNumber} />
 		</div>
 	);
 };

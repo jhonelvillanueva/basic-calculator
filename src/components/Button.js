@@ -1,7 +1,7 @@
 import './Button.css';
 import React from 'react';
 
-const Button = ({ handleNumber, start }) => {
+const Button = ({ start, handleNumber }) => {
 	return (
 		<>
 			<div className='button-container'>
@@ -9,7 +9,9 @@ const Button = ({ handleNumber, start }) => {
 					AC
 				</button>
 				<button className='btn'>±</button>
-				<button className='btn'>/</button>
+				<button className='btn' value='/'>
+					/
+				</button>
 				<button className='btn' onClick={handleNumber} value='7'>
 					7
 				</button>
@@ -19,7 +21,9 @@ const Button = ({ handleNumber, start }) => {
 				<button className='btn' onClick={handleNumber} value='9'>
 					9
 				</button>
-				<button className='btn'>X</button>
+				<button className='btn' value='x'>
+					X
+				</button>
 				<button className='btn' onClick={handleNumber} value='4'>
 					4
 				</button>
@@ -29,7 +33,9 @@ const Button = ({ handleNumber, start }) => {
 				<button className='btn' onClick={handleNumber} value='6'>
 					6
 				</button>
-				<button className='btn'>-</button>
+				<button className='btn' value='-'>
+					-
+				</button>
 				<button className='btn' onClick={handleNumber} value='1'>
 					1
 				</button>
@@ -39,14 +45,18 @@ const Button = ({ handleNumber, start }) => {
 				<button className='btn' onClick={handleNumber} value='3'>
 					3
 				</button>
-				<button className='btn'>+</button>
+				<button className='btn' value='+'>
+					+
+				</button>
 				<button className='btn grid-span-2' onClick={handleNumber} value='0'>
 					0
 				</button>
 				<button className='btn' onClick={handleNumber} value='.'>
 					.
 				</button>
-				<button className='btn'>=</button>
+				<button className='btn' value='='>
+					=
+				</button>
 			</div>
 		</>
 	);
